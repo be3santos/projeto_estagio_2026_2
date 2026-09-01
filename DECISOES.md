@@ -59,10 +59,11 @@ hasheada no banco.
 
 ## Uso de IA
 
-Usei IA como apoio pra escrever boa parte do código (entidade, repositório, controllers,
-config de segurança, templates), mas o tema, o modelo de dados e as decisões de escopo foram
-discutidos e definidos por mim antes de qualquer código ser escrito — fui construindo peça por
-peça, entendendo cada uma, em vez de gerar o projeto inteiro de uma vez.
+Usei IA como par de programação: ela sugeria a estrutura e o código de cada peça (entidade,
+repositório, controllers, segurança, templates), e eu revisava, digitava e testava cada parte
+antes de seguir pra próxima — não gerei o projeto inteiro de uma vez. As decisões de tema,
+modelagem de campos e escopo (o que entrar, o que cortar) foram minhas, discutidas antes do
+código ser escrito.
 
 Um ponto em que a sugestão inicial da IA não fazia sentido: numa primeira versão do
 `SecurityConfig`, a sugestão era desabilitar CSRF globalmente "pra simplificar". Isso é uma
