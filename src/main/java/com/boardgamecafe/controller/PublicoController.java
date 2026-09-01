@@ -25,7 +25,6 @@ public class PublicoController {
         model.addAttribute("reserva", new Reserva());
         model.addAttribute("categorias", CategoriaJogo.values());
         model.addAttribute("hoje", LocalDate.now().toString());
-        model.addAttribute("hoje", LocalDate.now().toString());
         model.addAttribute("limiteData", LocalDate.now().plusYears(1).toString());
         return "index";
     }
@@ -37,11 +36,13 @@ public class PublicoController {
         if (resultado.hasErrors()) {
             model.addAttribute("categorias", CategoriaJogo.values());
             model.addAttribute("hoje", LocalDate.now().toString());
+            model.addAttribute("limiteData", LocalDate.now().plusYears(1).toString());
             return "index";
         }
         reservaRepository.save(reserva);
         model.addAttribute("categorias", CategoriaJogo.values());
         model.addAttribute("hoje", LocalDate.now().toString());
+        model.addAttribute("limiteData", LocalDate.now().plusYears(1).toString());
         model.addAttribute("reserva", new Reserva());
         model.addAttribute("sucesso", true);
         model.addAttribute("nomeConfirmado", reserva.getNome());

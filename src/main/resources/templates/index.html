@@ -73,7 +73,7 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Data</label>
-                            <input type="date" class="form-control" th:min="${hoje}" th:field="*{dataReserva}">
+                            <input type="date" class="form-control" th:min="${hoje}" th:max="${limiteData}" th:field="*{dataReserva}">
                             <div class="text-danger small" th:if="${#fields.hasErrors('dataReserva')}" th:errors="*{dataReserva}"></div>
                         </div>
                         <div class="col-md-4">
