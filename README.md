@@ -1,4 +1,4 @@
-# 🎲 BoardGame Café — Sistema de Reservas
+# BoardGame Café — Sistema de Reservas
 
 Sistema web para reserva de mesa num café de jogos de tabuleiro fictício. O visitante escolhe
 categoria de jogo, data e horário pela página pública; o admin gerencia as reservas recebidas
