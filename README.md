@@ -6,7 +6,7 @@ num painel protegido por login.
 
 ## Stack
 
-- **Java 17** + **Spring Boot 3.3**
+- **Java 17** + **Spring Boot**
 - **Spring Web** + **Thymeleaf** (server-side rendering)
 - **Spring Data JPA** + **H2** (banco em arquivo, sem setup externo)
 - **Spring Security** (form login, sessão, proteção de rota)
@@ -15,15 +15,16 @@ num painel protegido por login.
 ## Pré-requisitos
 
 - Java 17 ou superior
-- Maven (ou use o `mvnw` incluso no projeto — não precisa ter Maven instalado globalmente)
+- Não precisa ter Maven instalado globalmente — o projeto já inclui o `mvnw` (Maven Wrapper)
 
 ## Como rodar
 
+**Linux/Mac:**
 ```bash
 ./mvnw spring-boot:run
 ```
 
-Windows (PowerShell):
+**Windows (PowerShell):**
 ```powershell
 .\mvnw.cmd spring-boot:run
 ```
@@ -32,6 +33,10 @@ A aplicação sobe em **http://localhost:8080**.
 
 O banco H2 é criado automaticamente como arquivo em `./data/boardgamecafe.mv.db` na primeira
 execução — não precisa rodar migration nem seed manualmente.
+
+> Se a porta 8080 já estiver em uso por outra instância da aplicação, o Spring Boot vai falhar
+> ao subir com o erro "Port 8080 was already in use". Encerre a instância anterior antes de
+> rodar de novo.
 
 ## Usuário admin
 
@@ -43,10 +48,18 @@ ambiente, quando a aplicação sobe.
 
 Para trocar as credenciais, defina as variáveis de ambiente antes de rodar:
 
+**Linux/Mac:**
 ```bash
 export ADMIN_USUARIO=seu_usuario
 export ADMIN_SENHA=sua_senha
 ./mvnw spring-boot:run
+```
+
+**Windows (PowerShell):**
+```powershell
+$env:ADMIN_USUARIO="seu_usuario"
+$env:ADMIN_SENHA="sua_senha"
+.\mvnw.cmd spring-boot:run
 ```
 
 Veja `.env.example` para o formato esperado.
