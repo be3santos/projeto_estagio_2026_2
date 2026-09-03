@@ -74,3 +74,22 @@ Veja `.env.example` para o formato esperado.
 | `/logout` | Encerra a sessão do admin |
 
 ## Estrutura do projeto
+
+| Caminho | Conteúdo |
+|---|---|
+| `src/main/java/com/boardgamecafe/model/` | `Reserva`, `CategoriaJogo`, `StatusReserva` |
+| `src/main/java/com/boardgamecafe/repository/` | `ReservaRepository` (Spring Data JPA) |
+| `src/main/java/com/boardgamecafe/controller/` | `PublicoController`, `AdminController`, `LoginController` |
+| `src/main/java/com/boardgamecafe/config/` | `SecurityConfig` |
+| `src/main/resources/templates/` | `index.html`, `login.html`, `dashboard.html` |
+| `src/main/resources/application.properties` | Configuração do banco H2 e credenciais do admin |
+
+
+## Testando o fluxo completo
+
+1. Acesse `http://localhost:8080/` e envie uma reserva
+2. Tente acessar `http://localhost:8080/admin/painel` direto (sem logar) — deve mandar pro login
+3. Faça login com `admin` / `admin123` (ou as credenciais que você configurou)
+4. Veja a reserva na lista, ordenada por data, com status "Pendente"
+5. Clique em "Confirmar" ou "Cancelar" e veja o status mudar
+6. Clique em "Sair" e confirme que o painel volta a pedir login
