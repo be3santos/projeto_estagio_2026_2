@@ -43,6 +43,9 @@
                 <h2 class="h4 mb-4">Reserve sua mesa</h2>
 
                 <form th:action="@{/reservar}" th:object="${reserva}" method="post">
+                    <div class="alert alert-warning" th:if="${#fields.hasGlobalErrors()}">
+                        <span th:each="erro : ${#fields.globalErrors()}" th:text="${erro}"></span>
+                    </div>
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label">Nome</label>
@@ -78,7 +81,14 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Horário</label>
-                            <input type="time" class="form-control" th:field="*{horario}">
+                            <select class="form-select" th:field="*{horario}">
+                                <option value="">Selecione...</option>
+                                <option value="14:00">14:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="18:00">18:00</option>
+                                <option value="20:00">20:00</option>
+                                <option value="22:00">22:00</option>
+                            </select>
                             <div class="text-danger small" th:if="${#fields.hasErrors('horario')}" th:errors="*{horario}"></div>
                         </div>
                     </div>
