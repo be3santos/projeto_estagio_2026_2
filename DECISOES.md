@@ -36,6 +36,13 @@ hasheada no banco.
   o navegador já bloqueia visualmente qualquer data fora desse intervalo.
 - **Ordenação**: "por data" ficou por data + horário juntos, senão duas reservas no mesmo dia
   apareceriam em ordem arbitrária.
+- **Horário livre vs. horário fixo**: comecei com um campo de horário livre (`<input
+  type="time">`), mas ao implementar o limite de mesas por horário percebi um problema: como a
+  contagem é por horário exato, alguém reservando às 18:01 escapava completamente do limite
+  aplicado às 18:00, mesmo sendo, na prática, a mesma "rodada" de mesas. Resolvi trocando por
+  um `<select>` com horários fixos (14:00, 16:00, 18:00, 20:00, 22:00) — assim a capacidade por
+  horário passa a fazer sentido de verdade, e também simplifica a experiência de quem reserva
+  (escolher entre 5 opções em vez de digitar um horário exato).
 
 ## Além do pedido
 
@@ -44,8 +51,10 @@ hasheada no banco.
    segunda-feira real.
 2. **Filtro por status** no painel (Todas / Pendentes / Confirmados / Cancelados) — útil
    quando a lista cresce.
-3. **Contadores** (pendentes/confirmados/cancelados) no topo do painel, pra visão rápida sem
-   precisar ler a tabela inteira.
+3. **Limite de mesas por horário**: defini uma capacidade máxima (6 reservas simultâneas por
+   horário) para evitar overbooking. Ao tentar reservar um horário já lotado, o visitante
+   recebe um aviso e precisa escolher outro horário ou data. Reservas canceladas liberam a vaga
+   de volta (a contagem ignora status `CANCELADO`).
 
 ## O que decidi não fazer
 
@@ -56,6 +65,12 @@ hasheada no banco.
   está sendo avaliado aqui.
 - **Múltiplos usuários admin**: um único admin em memória resolve o requisito sem complexidade
   extra.
+- **Trava de concorrência na checagem de capacidade**: a verificação de vagas e o salvamento da
+  reserva são dois passos separados no código — em teoria, duas pessoas enviando o formulário
+  no mesmo instante para o mesmo horário poderiam ambas passar pela checagem antes de qualquer
+  uma salvar, excedendo a capacidade em casos raros de concorrência. Resolver isso de forma
+  robusta exigiria uma constraint de banco ou lock transacional, o que julguei fora do escopo
+  deste teste.
 
 ## Uso de IA
 
