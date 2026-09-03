@@ -27,9 +27,6 @@ public class AdminController {
         }
         model.addAttribute("reservas", reservas);
         model.addAttribute("filtroAtual", status == null ? "" : status);
-        model.addAttribute("totalPendentes", reservaRepository.countByStatus(StatusReserva.PENDENTE));
-        model.addAttribute("totalConfirmados", reservaRepository.countByStatus(StatusReserva.CONFIRMADO));
-        model.addAttribute("totalCancelados", reservaRepository.countByStatus(StatusReserva.CANCELADO));
         return "dashboard";
     }
 
