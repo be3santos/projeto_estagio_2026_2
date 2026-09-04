@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 
+    List<Reserva> findByEmailIgnoreCaseOrderByDataReservaDescHorarioDesc(String email);
+
     List<Reserva> findAllByOrderByDataReservaAscHorarioAsc();
 
     List<Reserva> findByStatusOrderByDataReservaAscHorarioAsc(StatusReserva status);

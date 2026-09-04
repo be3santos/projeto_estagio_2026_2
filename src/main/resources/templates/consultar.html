@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar reserva — BoardGame Café</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Nunito', sans-serif; background-color: #f4ead9; color: #4a2c1d; }
+        .brand { font-family: 'Fredoka', sans-serif; }
+        .btn-laranja { background-color: #e0793b; border-color: #e0793b; color: white; font-weight: 700; }
+        .btn-laranja:hover { background-color: #c96529; border-color: #c96529; color: white; }
+        .badge-pendente { background-color: #e0a83b; }
+        .badge-confirmado { background-color: #4c7a4c; }
+        .badge-cancelado { background-color: #a34c4c; }
+        .card-form { background: white; border-radius: 1rem; box-shadow: 0 8px 30px rgba(74,44,29,0.10); padding: 2rem; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark" style="background-color: #4a2c1d;">
+    <div class="container">
+        <a class="navbar-brand brand" href="/">BoardGame Café</a>
+    </div>
+</nav>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card-form mb-4">
+                <h1 class="h4 mb-3">Consultar minha reserva</h1>
+                <p class="text-muted small">Digite o email usado na reserva para ver o status atual.</p>
+                <form th:action="@{/consultar}" method="post" class="d-flex gap-2">
+                    <input type="email" name="email" class="form-control" required
+                           th:value="${emailBuscado}" placeholder="seuemail@exemplo.com">
+                    <button type="submit" class="btn btn-laranja">Buscar</button>
+                </form>
+            </div>
+
+            <div th:if="${buscou}">
+                <div th:if="${#lists.isEmpty(reservas)}" class="text-center text-muted py-4">
+                    Nenhuma reserva encontrada para esse email.
+                </div>
+
+                <div th:unless="${#lists.isEmpty(reservas)}" class="list-group">
+                    <div th:each="r : ${reservas}" class="list-group-item d-flex justify-content-between align-items-center py-3">
+                        <div>
+                            <div class="fw-bold" th:text="${r.categoriaJogo.rotulo}"></div>
+                            <div class="small text-muted">
+                                <span th:text="${#temporals.format(r.dataReserva, 'dd/MM/yyyy')}"></span> às
+                                <span th:text="${#temporals.format(r.horario, 'HH:mm')}"></span>
+                                · <span th:text="${r.numeroPessoas}"></span> pessoa(s)
+                            </div>
+                        </div>
+                        <span class="badge badge-pendente" th:if="${r.status.name() == 'PENDENTE'}">Pendente</span>
+                        <span class="badge badge-confirmado" th:if="${r.status.name() == 'CONFIRMADO'}">Confirmado</span>
+                        <span class="badge badge-cancelado" th:if="${r.status.name() == 'CANCELADO'}">Cancelado</span>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-center small mt-4"><a href="/" class="text-muted">← Voltar para o início</a></p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

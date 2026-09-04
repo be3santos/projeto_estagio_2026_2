@@ -12,8 +12,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 public class PublicoController {
@@ -61,5 +63,18 @@ public class PublicoController {
         model.addAttribute("sucesso", true);
         model.addAttribute("nomeConfirmado", reserva.getNome());
         return "index";
+    }
+
+    @GetMapping("/consultar")
+    public String consultarForm() {
+        return "consultar";
+    }
+
+    @PostMapping("/consultar")
+    public String consultar(@RequestParam String email, Model model) {
+        model.addAttribute("reservas", reservaRepository.findByEmailIgnoreCaseOrderByDataReservaDescHorarioDesc(email));
+        model.addAttribute("emailBuscado", email);
+        model.addAttribute("buscou", true);
+        return "consultar";
     }
 }
