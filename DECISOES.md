@@ -41,8 +41,12 @@ hasheada no banco.
   contagem é por horário exato, alguém reservando às 18:01 escapava completamente do limite
   aplicado às 18:00, mesmo sendo, na prática, a mesma "rodada" de mesas. Resolvi trocando por
   um `<select>` com horários fixos (14:00, 16:00, 18:00, 20:00, 22:00) — assim a capacidade por
-  horário passa a fazer sentido de verdade, e também simplifica a experiência de quem reserva
-  (escolher entre 5 opções em vez de digitar um horário exato).
+  horário passa a fazer sentido de verdade, e também simplifica a experiência de quem reserva.
+- **Como o visitante sabe se a reserva foi confirmada ou cancelada**: como decidi não enviar
+  email real, o visitante não teria nenhuma forma de acompanhar o próprio pedido depois de
+  enviado. Resolvi com uma página pública de consulta (`/consultar`), onde a pessoa digita o
+  email usado na reserva e vê o status atual de todas as reservas feitas com aquele email —
+  sem precisar de login nem de infraestrutura de envio de email.
 
 ## Além do pedido
 
@@ -55,14 +59,19 @@ hasheada no banco.
    horário) para evitar overbooking. Ao tentar reservar um horário já lotado, o visitante
    recebe um aviso e precisa escolher outro horário ou data. Reservas canceladas liberam a vaga
    de volta (a contagem ignora status `CANCELADO`).
+4. **Consulta pública de status** (`/consultar`): o visitante digita o email usado na reserva e
+   vê o status atualizado de todas as suas reservas, sem precisar de login. Resolve uma lacuna
+   real que percebi depois de decidir não implementar email — sem essa página, o cliente não
+   teria absolutamente nenhuma forma de saber o que aconteceu com o pedido dele.
 
 ## O que decidi não fazer
 
 - **Cancelamento pelo visitante**: exigiria autenticação ou link mágico por email — fora do
-  escopo do teste.
+  escopo do teste. A consulta de status (item acima) cobre a necessidade de acompanhamento sem
+  precisar desse nível de complexidade.
 - **Notificação por email real**: simulei a confirmação como mensagem visual na própria
-  página; enviar email de verdade exigiria configurar um provedor SMTP, que não agrega ao que
-  está sendo avaliado aqui.
+  página, e criei a consulta pública de status como alternativa — enviar email de verdade
+  exigiria configurar um provedor SMTP, que não agrega ao que está sendo avaliado aqui.
 - **Múltiplos usuários admin**: um único admin em memória resolve o requisito sem complexidade
   extra.
 - **Trava de concorrência na checagem de capacidade**: a verificação de vagas e o salvamento da

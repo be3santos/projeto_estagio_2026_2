@@ -69,9 +69,19 @@ Veja `.env.example` para o formato esperado.
 | Rota | O que é |
 |---|---|
 | `/` | Página pública com informações do café e formulário de reserva |
+| `/consultar` | Visitante consulta o status da própria reserva pelo email |
 | `/login` | Login do admin |
 | `/admin/painel` | Painel de gestão (protegido — redireciona pro login se não autenticado) |
 | `/logout` | Encerra a sessão do admin |
+
+## Regras de negócio
+
+- O café funciona todos os dias, das 14h às 23h.
+- Horários de reserva são fixos: 14:00, 16:00, 18:00, 20:00 e 22:00.
+- Cada horário comporta no máximo 6 reservas simultâneas (reservas canceladas liberam a vaga).
+- Reservas podem ser feitas de hoje até 1 ano no futuro.
+- Toda reserva nasce com status `pendente` e só o admin pode confirmar ou cancelar.
+- O visitante não recebe email — para saber o status, consulta pelo email em `/consultar`.
 
 ## Estrutura do projeto
 
@@ -81,15 +91,16 @@ Veja `.env.example` para o formato esperado.
 | `src/main/java/com/boardgamecafe/repository/` | `ReservaRepository` (Spring Data JPA) |
 | `src/main/java/com/boardgamecafe/controller/` | `PublicoController`, `AdminController`, `LoginController` |
 | `src/main/java/com/boardgamecafe/config/` | `SecurityConfig` |
-| `src/main/resources/templates/` | `index.html`, `login.html`, `dashboard.html` |
+| `src/main/resources/templates/` | `index.html`, `login.html`, `dashboard.html`, `consultar.html` |
 | `src/main/resources/application.properties` | Configuração do banco H2 e credenciais do admin |
-
 
 ## Testando o fluxo completo
 
 1. Acesse `http://localhost:8080/` e envie uma reserva
-2. Tente acessar `http://localhost:8080/admin/painel` direto (sem logar) — deve mandar pro login
-3. Faça login com `admin` / `admin123` (ou as credenciais que você configurou)
-4. Veja a reserva na lista, ordenada por data, com status "Pendente"
-5. Clique em "Confirmar" ou "Cancelar" e veja o status mudar
-6. Clique em "Sair" e confirme que o painel volta a pedir login
+2. Vá em `/consultar`, digite o mesmo email e veja o status "Pendente"
+3. Tente acessar `http://localhost:8080/admin/painel` direto (sem logar) — deve mandar pro login
+4. Faça login com `admin` / `admin123` (ou as credenciais que você configurou)
+5. Veja a reserva na lista, ordenada por data, com status "Pendente"
+6. Clique em "Confirmar" e veja o status mudar
+7. Volte em `/consultar` com o mesmo email — o status deve aparecer como "Confirmado"
+8. Clique em "Sair" e confirme que o painel volta a pedir login
